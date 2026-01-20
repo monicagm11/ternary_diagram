@@ -34,7 +34,7 @@ class TernaryPainter extends CustomPainter {
         index == 0 ? internalPath.moveTo(coord.x, coord.y) : internalPath.lineTo(coord.x, coord.y);
       });
       path.close ? internalPath.close() : null;
-      canvas.drawPath(internalPath, path.paint!);
+      canvas.drawPath(internalPath, path.paint);
   }
 
   void _drawLabelList(Canvas canvas, List<LabelPainter> labelList) {
