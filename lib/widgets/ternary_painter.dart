@@ -24,7 +24,9 @@ class TernaryPainter extends CustomPainter {
   }
 
   void _drawPathList(Canvas canvas, List<BinaryPath> pathList) {
-    pathList.forEach((path) => _drawPath(canvas, path));
+    for (BinaryPath path in pathList) {
+      _drawPath(canvas, path);
+    }
   }
 
   void _drawPath(Canvas canvas, BinaryPath path) {
@@ -38,7 +40,9 @@ class TernaryPainter extends CustomPainter {
   }
 
   void _drawLabelList(Canvas canvas, List<LabelPainter> labelList) {
-    labelList.forEach((label) => _drawLabel(canvas, label));
+    for (LabelPainter label in labelList) {
+      _drawLabel(canvas, label);
+    }
   }
   void _drawLabel(Canvas canvas, LabelPainter painter) {
     TextPainter textPainter = painter.textPainter;
