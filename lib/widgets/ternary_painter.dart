@@ -15,6 +15,7 @@ class TernaryPainter extends CustomPainter {
     diagramConfig.setUp(totalWidth: totalWidth, totalHeigth: totalHeigth);
     _drawPathList(canvas, diagramConfig.pathToPaint);
     _drawLabelList(canvas, diagramConfig.labelToPaint);
+    _drawPathList(canvas, diagramConfig.functionsToPaint);
   }
   
   @override
@@ -25,7 +26,7 @@ class TernaryPainter extends CustomPainter {
 
   void _drawPathList(Canvas canvas, List<BinaryPath> pathList) {
     for (BinaryPath path in pathList) {
-      _drawPath(canvas, path);
+      path.coordinateList.length == 1 ? _drawPoint (canvas, path) : _drawPath(canvas, path);
     }
   }
 
@@ -37,6 +38,13 @@ class TernaryPainter extends CustomPainter {
       });
       path.close ? internalPath.close() : null;
       canvas.drawPath(internalPath, path.paint);
+  }
+
+  void _drawPoint(Canvas canvas, BinaryPath path) {
+    BinaryCoordinate coord = path.coordinateList.first;
+    Paint paint = path.paint;
+    double stroke = paint.strokeWidth;
+    canvas.drawCircle(Offset(coord.x, coord.y), stroke, paint);
   }
 
   void _drawLabelList(Canvas canvas, List<LabelPainter> labelList) {

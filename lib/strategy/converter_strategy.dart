@@ -2,14 +2,10 @@ import 'package:ternary_diagram/models/binary_coordinate.dart';
 import 'package:ternary_diagram/models/ternary_coordinate.dart';
 
 abstract class ConverterStrategy {
-  late double heigth;
-  late double width;
-  late double offsetX;
-  late double offsetY;
 
   ConverterStrategy();
 
-  BinaryCoordinate ternaryToBinaryCoordinate(TernaryCoordinate ternaryCoordinate);
+  BinaryCoordinate ternaryToBinaryCoordinate(TernaryCoordinate ternaryCoordinate, double offsetX, double offsetY, double heigth, double width);
 
   List<BinaryCoordinate> getArrowHeadA(BinaryCoordinate start, BinaryCoordinate end);
 

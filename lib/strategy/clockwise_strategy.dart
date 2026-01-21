@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ternary_diagram/models/binary_coordinate.dart';
 import 'package:ternary_diagram/models/ternary_coordinate.dart';
 import 'package:ternary_diagram/strategy/converter_strategy.dart';
@@ -8,9 +10,14 @@ class ClockwiseStrategy extends ConverterStrategy {
   ClockwiseStrategy();
 
   @override
-  BinaryCoordinate ternaryToBinaryCoordinate(TernaryCoordinate ternaryCoordinate) {
-    // TODO: implement ternaryToBinaryCoordinate
-    throw UnimplementedError();
+  BinaryCoordinate ternaryToBinaryCoordinate(TernaryCoordinate ternaryCoordinate, double offsetX, double offsetY, double heigth, double width) {
+    double componentA = ternaryCoordinate.componentA;
+    double componentC = ternaryCoordinate.componentC;
+    double y = offsetY + (1 - componentA) * heigth;
+    double heightA = componentA * heigth;
+    double deltaX = heightA/tan(Constants.radians60Grades);
+    double x = ((1-componentC) * width) + offsetX - deltaX;
+    return BinaryCoordinate(x: x , y: y);
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ternary_diagram/diagram_config/converter_config_impl.dart';
 import 'package:ternary_diagram/models/diagram_style.dart';
+import 'package:ternary_diagram/models/ternary_path.dart';
 import 'package:ternary_diagram/strategy/clockwise_strategy.dart';
 import 'package:ternary_diagram/strategy/counter_clockwise_strategy.dart';
 import 'package:ternary_diagram/utils/diagram_types.dart';
@@ -14,15 +15,18 @@ class TernaryDiagram extends StatelessWidget {
   final Color? color;
   final Widget? title;
   final DiagramStyle diagramStyle;
+  final List<TernaryPath> functions;
 
   const TernaryDiagram(
       {super.key,
       required this.diagramType,
+      required this.functions,
       this.heigth,
       this.width,
       this.title,
       this.color,
-      this.diagramStyle = const DiagramStyle()});
+      this.diagramStyle = const DiagramStyle()
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,8 @@ class TernaryDiagram extends StatelessWidget {
                     converterStrategy: diagramType == DiagramTypes.clockwise
                         ? ClockwiseStrategy()
                         : CounterClockwiseStrategy(),
-                    diagramStyle: diagramStyle)),
+                    diagramStyle: diagramStyle,
+                    functions: functions)),
           ))
         ],
       ),

@@ -10,34 +10,21 @@ class CounterClockwiseStrategy extends ConverterStrategy {
   CounterClockwiseStrategy();
 
   @override
-  BinaryCoordinate ternaryToBinaryCoordinate(TernaryCoordinate ternaryCoordinate) {
-    double componentA = ternaryCoordinate.componentA;
+  BinaryCoordinate ternaryToBinaryCoordinate(TernaryCoordinate ternaryCoordinate, double offsetX, double offsetY, double heigth, double width) {
     double componentB = ternaryCoordinate.componentB;
-    double y = offsetY + (1 - componentA) * heigth;
+    double componentC = ternaryCoordinate.componentC;
+    double y = offsetY + (1 - componentB) * heigth;
     
-    double heightB = componentA * heigth;
+    double heightB = componentB * heigth;
 
     double deltaX = heightB/tan(Constants.radians60Grades);
 
-    double x = (componentB * width) + offsetX + deltaX;
-    return BinaryCoordinate(x: x, y: y);
+    double x = (componentC * width) + offsetX + deltaX;
+    return BinaryCoordinate(x: x , y: y);
   }
 
   @override
   List<BinaryCoordinate> getArrowHeadA(BinaryCoordinate start, BinaryCoordinate end) {
-    /*List<BinaryCoordinate> list = [];
-    double startAngleToRotate = 120 - Constants.arrowAngle;
-    double startAngleToRotateRad = FunctionsUtils.gradesToRadians(startAngleToRotate);
-    double firstPointX = FunctionsUtils.rotateX(-Constants.arrowHeadLength, 0, startAngleToRotateRad) + end.x;
-    double firstPointY = FunctionsUtils.rotateY(-Constants.arrowHeadLength, 0, startAngleToRotateRad) + end.y;
-
-    list.add(BinaryCoordinate(x: firstPointX, y: firstPointY));
-    list.add(end);
-    double endAngleToRotate = 120 + Constants.arrowAngle;
-    double endAngleToRotateRad = FunctionsUtils.gradesToRadians(endAngleToRotate);
-    double endPointX = FunctionsUtils.rotateX(-Constants.arrowHeadLength, 0, endAngleToRotateRad) + end.x;
-    double endPointY = FunctionsUtils.rotateY(-Constants.arrowHeadLength, 0, endAngleToRotateRad) + end.y;
-    list.add(BinaryCoordinate(x: endPointX, y: endPointY));*/
     List<BinaryCoordinate> list = [];
     double startAngleToRotate = 120 + Constants.arrowAngle;
     double startAngleToRotateRad = FunctionsUtils.gradesToRadians(startAngleToRotate);

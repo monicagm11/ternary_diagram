@@ -7,6 +7,7 @@ import 'package:ternary_diagram/models/binary_path.dart';
 import 'package:ternary_diagram/models/diagram_style.dart';
 import 'package:ternary_diagram/models/label_painter.dart';
 import 'package:ternary_diagram/models/ternary_coordinate.dart';
+import 'package:ternary_diagram/models/ternary_path.dart';
 import 'package:ternary_diagram/strategy/converter_strategy.dart';
 import 'package:ternary_diagram/utils/constants.dart';
 import 'package:ternary_diagram/utils/functions_utils.dart';
@@ -27,6 +28,7 @@ class DiagramConfigImpl {
   List<BinaryPath> arrowComponentA = [];
   List<BinaryPath> pathToPaint = [];
   List<LabelPainter> labelToPaint = [];
+  List<BinaryPath> functionsToPaint = [];
 
   late LabelPainter labelPainterA;
   late LabelPainter labelPainterB;
@@ -34,9 +36,10 @@ class DiagramConfigImpl {
 
   ConverterStrategy converterStrategy;
   DiagramStyle diagramStyle;
+  List<TernaryPath> functions;
 
   DiagramConfigImpl(
-      {required this.converterStrategy, required this.diagramStyle});
+      {required this.converterStrategy, required this.diagramStyle, this.functions = const []});
 
   setUp({required double totalWidth, required double totalHeigth}) {
     _validateSpaceForLabel();
@@ -66,11 +69,19 @@ class DiagramConfigImpl {
     _calculateArrowAPath();
     _calculateArrowBPath();
     _calculateArrowCPath();
+    _calculateFunctionsToShow();
   }
 
   List<BinaryCoordinate> convertCoordinates(List<TernaryCoordinate> data) {
-    // TODO: implement convertCoordinates
-    throw UnimplementedError();
+    return data.map((ternary) => converterStrategy.ternaryToBinaryCoordinate(ternary, offsetX, offsetY, availableHeigth, availableWidth)).toList();
+  }
+
+  void _calculateFunctionsToShow() {
+    functionsToPaint.clear();
+    for (TernaryPath path in functions) {
+      List<BinaryCoordinate> coordinateList = convertCoordinates(path.coordinateList);
+      functionsToPaint.add(BinaryPath(paint: path.paint, coordinateList : coordinateList, close: path.close));
+    }
   }
 
   void _calculateInternalGridPath() {
@@ -179,14 +190,6 @@ class DiagramConfigImpl {
       y = labelStart.y + (dx/distance) * (labelEnd.y - labelStart.y);
     }
     return LabelPainter(textPainter: textPainter, offset: Offset(x, y), angleToRotate: angleToRotate);
-  }
-
-  LabelPainter getLabelBOffset(TextPainter textPainter, BinaryCoordinate start, BinaryCoordinate end) {
-    return LabelPainter(textPainter: textPainter, offset: Offset(0, 0));
-  }
-
-  LabelPainter getLabelCOffset(TextPainter textPainter, BinaryCoordinate start, BinaryCoordinate end) {
-    return LabelPainter(textPainter: textPainter, offset: Offset(0, 0));
   }
   
 }
